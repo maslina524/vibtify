@@ -36,3 +36,12 @@ pub struct Gamepad {
     pid: u16,
     device: HidDevice
 }
+
+impl Gamepad {
+    pub fn get_raw(&self) -> Result<[u8; 64], HidError> {
+        let mut buf = [0u8; 64];
+        let bytes_read = self.device.read_timeout(&mut buf, 1000)?;
+
+        Ok(buf[..bytes_read].try_into().unwrap())
+    }
+}

@@ -3,6 +3,7 @@ mod gamepad;
 #[cfg(test)]
 mod tests {
     use crate::gamepad::get_gamepads;
+    use std::{process::Command, time::Duration};
 
     #[test]
     fn get_gamepads_test() {
@@ -14,7 +15,10 @@ mod tests {
     fn get_raw_test() {
         let gamepad = &get_gamepads().unwrap()[0];
         loop {
-            println!("{:#?}", gamepad.get_raw());
+            for byte in gamepad.get_raw().unwrap() {
+                print!("{byte:02x} ")
+            }
+            println!("\n")
         }
     }
 }
