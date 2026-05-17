@@ -6,6 +6,7 @@ mod tests {
 
     #[test]
     fn get_gamepads_test() {
-        get_gamepads();
+        let gamepads = get_gamepads();
+        println!("{gamepads:#?}")
     }
 }
