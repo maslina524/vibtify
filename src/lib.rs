@@ -18,7 +18,7 @@ mod tests {
             // for byte in raw {
             //     print!("{byte:02x} ")
             // }
-            print!("{:08b}", raw[6]);
+            print!("{} {}", raw[8], raw[9]);
             println!("\n")
         }
     }
