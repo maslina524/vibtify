@@ -32,6 +32,35 @@ pub enum GamepadType {
 }
 
 #[derive(Debug)]
+pub enum CrossState {
+    Up,
+    Down,
+    Left,
+    Right,
+    UpLeft,
+    UpRight,
+    DownLeft,
+    DownRight,
+    None
+}
+
+impl CrossState {
+    pub fn from_byte(byte: u8) -> Self {
+        return match byte {
+            0x00 => Self::Up,
+            0x04 => Self::Down,
+            0x06 => Self::Left,
+            0x02 => Self::Right,
+            0x07 => Self::UpLeft,
+            0x01 => Self::UpRight,
+            0x05 => Self::DownLeft,
+            0x03 => Self::DownRight,
+            _ => Self::None
+        }
+    }
+}
+
+#[derive(Debug)]
 pub struct GamepadState {
     pub l_stick: (f32, f32),
     pub r_stick: (f32, f32),
@@ -40,6 +69,8 @@ pub struct GamepadState {
     pub l2: bool,
     pub r1: bool,
     pub r2: bool,
+
+    pub cross: CrossState,
 }
 
 #[derive(Debug)]
@@ -77,6 +108,7 @@ impl Gamepad {
             l2: get_bit(raw[6], 2) == 1,
             r1: get_bit(raw[6], 1) == 1,
             r2: get_bit(raw[6], 3) == 1,
+            cross: CrossState::from_byte(raw[5])
         };
         Ok(ret)
     }
