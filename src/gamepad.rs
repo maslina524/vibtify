@@ -22,6 +22,10 @@ pub fn get_gamepads() -> Result<Vec<Gamepad>, HidError> {
     Ok(ret)
 }
 
+fn get_bit(value: u8, n: u8) -> u8 {
+    (value >> n) & 1
+}
+
 #[derive(Debug)]
 pub enum GamepadType {
     Dualshock4
@@ -29,8 +33,13 @@ pub enum GamepadType {
 
 #[derive(Debug)]
 pub struct GamepadState {
-    pub r_stick: (f32, f32),
     pub l_stick: (f32, f32),
+    pub r_stick: (f32, f32),
+
+    pub l1: bool,
+    pub l2: bool,
+    pub r1: bool,
+    pub r2: bool,
 }
 
 #[derive(Debug)]
@@ -51,19 +60,23 @@ impl Gamepad {
 
     pub fn get_state(&self) -> Result<GamepadState, HidError> {
         let raw = self.get_raw()?;
-
-        let r_stick = (
-            raw[3] as f32 / 127.5 - 1.,
-            -(raw[4] as f32 / 127.5 - 1.)
-        );
+        
         let l_stick = (
             raw[1] as f32 / 127.5 - 1.,
             -(raw[2] as f32 / 127.5 - 1.)
         );
+        let r_stick = (
+            raw[3] as f32 / 127.5 - 1.,
+            -(raw[4] as f32 / 127.5 - 1.)
+        );
 
         let ret = GamepadState {
-            r_stick,
             l_stick,
+            r_stick,
+            l1: get_bit(raw[6], 0) == 1,
+            l2: get_bit(raw[6], 2) == 1,
+            r1: get_bit(raw[6], 1) == 1,
+            r2: get_bit(raw[6], 3) == 1,
         };
         Ok(ret)
     }

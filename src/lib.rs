@@ -15,9 +15,11 @@ mod tests {
     fn get_raw_test() {
         let gamepad = &get_gamepads().unwrap()[0];
         loop {
-            for byte in gamepad.get_raw().unwrap() {
-                print!("{byte:02x} ")
-            }
+            let raw = gamepad.get_raw().unwrap();
+            // for byte in raw {
+            //     print!("{byte:02x} ")
+            // }
+            print!("{:08b}", raw[5]);
             println!("\n")
         }
     }
