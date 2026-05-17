@@ -21,4 +21,14 @@ mod tests {
             println!("\n")
         }
     }
+
+    #[test]
+    fn get_state_test() {
+        let gamepad = &get_gamepads().unwrap()[0];
+        loop {
+            let state = gamepad.get_state().unwrap();
+            print!("{state:?}");
+            println!("\n")
+        }
+    }
 }

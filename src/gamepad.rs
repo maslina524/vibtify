@@ -1,5 +1,3 @@
-use std::time::Duration;
-
 use hidapi::{HidApi, HidDevice, HidError};
 
 pub fn get_gamepads() -> Result<Vec<Gamepad>, HidError> {
@@ -30,6 +28,12 @@ pub enum GamepadType {
 }
 
 #[derive(Debug)]
+pub struct GamepadState {
+    pub r_stick: (f32, f32),
+    pub l_stick: (f32, f32),
+}
+
+#[derive(Debug)]
 pub struct Gamepad {
     typ: GamepadType,
     vid: u16,
@@ -43,5 +47,24 @@ impl Gamepad {
         let bytes_read = self.device.read_timeout(&mut buf, 1000)?;
 
         Ok(buf[..bytes_read].try_into().unwrap())
+    }
+
+    pub fn get_state(&self) -> Result<GamepadState, HidError> {
+        let raw = self.get_raw()?;
+
+        let r_stick = (
+            raw[3] as f32 / 127.5 - 1.,
+            -(raw[4] as f32 / 127.5 - 1.)
+        );
+        let l_stick = (
+            raw[1] as f32 / 127.5 - 1.,
+            -(raw[2] as f32 / 127.5 - 1.)
+        );
+
+        let ret = GamepadState {
+            r_stick,
+            l_stick,
+        };
+        Ok(ret)
     }
 }
