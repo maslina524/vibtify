@@ -67,8 +67,10 @@ pub struct GamepadState {
 
     pub l1: bool,
     pub l2: bool,
+    pub l3: bool,
     pub r1: bool,
     pub r2: bool,
+    pub r3: bool,
 
     pub cross: CrossState,
     
@@ -109,8 +111,10 @@ impl Gamepad {
             r_stick,
             l1: get_bit(raw[6], 0) == 1,
             l2: get_bit(raw[6], 2) == 1,
+            l3: get_bit(raw[6], 6) == 1,
             r1: get_bit(raw[6], 1) == 1,
             r2: get_bit(raw[6], 3) == 1,
+            r3: get_bit(raw[6], 7) == 1,
             cross: CrossState::from_byte(raw[5]),
             options: get_bit(raw[6], 5) == 1,
             share: get_bit(raw[6], 4) == 1,
