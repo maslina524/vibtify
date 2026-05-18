@@ -1,6 +1,7 @@
 mod gamepad;
 mod dpad;
 mod touch;
+mod bit;
 
 #[cfg(test)]
 mod tests {
@@ -17,10 +18,10 @@ mod tests {
         let gamepad = &get_gamepads().unwrap()[0];
         loop {
             let raw = gamepad.get_raw().unwrap();
-            for byte in raw {
-                print!("{byte:02x} ")
-            }
-            // print!("{} {}", raw[8], raw[9]);
+            // for byte in raw {
+            //     print!("{byte:02x} ")
+            // }
+            print!("{:08b}", raw[0x07]);
             println!("\n")
         }
     }

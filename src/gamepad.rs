@@ -25,10 +25,6 @@ pub fn get_gamepads() -> Result<Vec<Gamepad>, HidError> {
     Ok(ret)
 }
 
-fn get_bit(value: u8, n: u8) -> u8 {
-    (value >> n) & 1
-}
-
 #[derive(Debug)]
 pub enum GamepadType {
     Dualshock4
