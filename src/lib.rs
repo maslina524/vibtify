@@ -31,7 +31,7 @@ mod tests {
         let gamepad = &get_gamepads().unwrap()[0];
         loop {
             let state = gamepad.get_state().unwrap();
-            print!("{:?}", state.tpad);
+            print!("{:?}", state);
             println!("\n")
         }
     }

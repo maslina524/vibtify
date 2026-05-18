@@ -50,7 +50,8 @@ pub struct GamepadState {
     pub tpad: TPadState,
     
     pub options: bool,
-    pub share: bool
+    pub share: bool,
+    pub home: bool,
 }
 
 #[derive(Debug)]
@@ -114,6 +115,7 @@ impl Gamepad {
 
             options: get_bit(raw[6], 5) == 1,
             share: get_bit(raw[6], 4) == 1,
+            home: get_bit(raw[0x07], 0) == 1,
         };
         Ok(ret)
     }
