@@ -1,5 +1,6 @@
 mod gamepad;
 mod dpad;
+mod touch;
 
 #[cfg(test)]
 mod tests {
@@ -29,7 +30,7 @@ mod tests {
         let gamepad = &get_gamepads().unwrap()[0];
         loop {
             let state = gamepad.get_state().unwrap();
-            print!("{state:?}");
+            print!("{:?}", state.tpad);
             println!("\n")
         }
     }

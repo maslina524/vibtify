@@ -1,6 +1,7 @@
 use hidapi::{HidApi, HidDevice, HidError};
 
 use crate::dpad::DPadState;
+use crate::touch::TPadState;
 
 pub fn get_gamepads() -> Result<Vec<Gamepad>, HidError> {
     let api = HidApi::new()?;
@@ -49,6 +50,7 @@ pub struct GamepadState {
     pub r2_force: f32,
 
     pub dpad: DPadState,
+    pub tpad: TPadState,
     
     pub options: bool,
     pub share: bool
@@ -94,6 +96,8 @@ impl Gamepad {
             -(raw[4] as f32 / 127.5 - 1.)
         );
 
+        let tpad = TPadState::from_buf(&raw);
+
         let ret = GamepadState {
             l_stick,
             r_stick,
@@ -109,6 +113,7 @@ impl Gamepad {
             r2_force: raw[9] as f32 / 255.,
 
             dpad: DPadState::from_byte(raw[5]),
+            tpad,
 
             options: get_bit(raw[6], 5) == 1,
             share: get_bit(raw[6], 4) == 1,
