@@ -54,6 +54,11 @@ impl Gamepad for Dualshock4 {
             r2: get_bit(raw[6], 3) == 1,
             r3: get_bit(raw[6], 7) == 1,
 
+            square: get_bit(raw[5], 4) == 1,
+            triangle: get_bit(raw[5], 7) == 1,
+            circle: get_bit(raw[5], 6) == 1,
+            cross: get_bit(raw[5], 5) == 1,
+
             l2_force: raw[8] as f32 / 255.,
             r2_force: raw[9] as f32 / 255.,
 

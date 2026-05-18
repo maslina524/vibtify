@@ -17,6 +17,11 @@ pub struct GamepadState {
     pub r2: bool,
     pub r3: bool,
 
+    pub square: bool,
+    pub triangle: bool,
+    pub circle: bool,
+    pub cross: bool,
+
     pub l2_force: f32,
     pub r2_force: f32,
 

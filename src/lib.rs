@@ -25,7 +25,20 @@ mod tests {
             // for byte in raw {
             //     print!("{byte:02x} ")
             // }
-            print!("{:08b}", raw[0x0c]);
+            print!("{:08b}", raw[0x05]);
+            println!("\n")
+        }
+    }
+
+    #[test]
+    fn get_right() {
+        let gamepad = &get_gamepads().unwrap()[0];
+        loop {
+            let state = gamepad.get_state().unwrap();
+            print!(
+                "triangle: {} | circle: {} | cross: {} | square: {}",
+                state.triangle, state.circle, state.cross, state.square
+            );
             println!("\n")
         }
     }
@@ -35,7 +48,7 @@ mod tests {
         let gamepad = &get_gamepads().unwrap()[0];
         loop {
             let state = gamepad.get_state().unwrap();
-            print!("{:?}", state.motion);
+            print!("{:?}", state);
             println!("\n")
         }
     }
