@@ -2,6 +2,7 @@ use hidapi::{HidApi, HidDevice, HidError};
 
 use crate::dpad::DPadState;
 use crate::touch::TPadState;
+use crate::bit::get_bit;
 
 pub fn get_gamepads() -> Result<Vec<Gamepad>, HidError> {
     let api = HidApi::new()?;

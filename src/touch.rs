@@ -1,3 +1,5 @@
+use crate::bit::get_bit;
+
 const ACTIVE_BLOCK_1: usize = 0x23;
 const DATA_BLOCK_A_1: usize = 0x24;
 const DATA_BLOCK_B_1: usize = 0x25;
@@ -15,6 +17,8 @@ pub struct TPadState {
 
     is_touched_2: bool,
     xy_2: Option<(u16, u16)>,
+
+    is_pressed: bool
 }
 
 impl TPadState {
@@ -41,12 +45,16 @@ impl TPadState {
             None
         };
 
+        let is_pressed = get_bit(buf[0x07], 1) == 1;
+
         Self {
             is_touched_1: active_1,
             xy_1,
 
             is_touched_2: active_2,
             xy_2,
+
+            is_pressed
         }
     }
 }
