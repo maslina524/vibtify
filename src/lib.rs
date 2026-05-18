@@ -16,10 +16,10 @@ mod tests {
         let gamepad = &get_gamepads().unwrap()[0];
         loop {
             let raw = gamepad.get_raw().unwrap();
-            // for byte in raw {
-            //     print!("{byte:02x} ")
-            // }
-            print!("{} {}", raw[8], raw[9]);
+            for byte in raw {
+                print!("{byte:02x} ")
+            }
+            // print!("{} {}", raw[8], raw[9]);
             println!("\n")
         }
     }

@@ -48,7 +48,7 @@ pub struct GamepadState {
     pub l2_force: f32,
     pub r2_force: f32,
 
-    pub cross: DPadState,
+    pub dpad: DPadState,
     
     pub options: bool,
     pub share: bool
@@ -68,6 +68,18 @@ impl Gamepad {
         let bytes_read = self.device.read_timeout(&mut buf, 1000)?;
 
         Ok(buf[..bytes_read].try_into().unwrap())
+    }
+
+    pub fn get_typ(&self) -> &GamepadType {
+        &self.typ
+    }
+
+    pub fn get_vid(&self) -> u16 {
+        self.vid
+    }
+
+    pub fn get_pid(&self) -> u16 {
+        self.pid
     }
 
     pub fn get_state(&self) -> Result<GamepadState, HidError> {
@@ -96,7 +108,7 @@ impl Gamepad {
             l2_force: raw[8] as f32 / 255.,
             r2_force: raw[9] as f32 / 255.,
 
-            cross: DPadState::from_byte(raw[5]),
+            dpad: DPadState::from_byte(raw[5]),
 
             options: get_bit(raw[6], 5) == 1,
             share: get_bit(raw[6], 4) == 1,
