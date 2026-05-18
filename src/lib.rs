@@ -1,4 +1,4 @@
-mod gamepad;
+mod dualshock4;
 mod dpad;
 mod touch;
 mod motion;
@@ -6,7 +6,7 @@ mod bit;
 
 #[cfg(test)]
 mod tests {
-    use crate::gamepad::get_gamepads;
+    use crate::dualshock4::get_gamepads;
 
     #[test]
     fn get_gamepads_test() {
@@ -22,7 +22,7 @@ mod tests {
             // for byte in raw {
             //     print!("{byte:02x} ")
             // }
-            print!("{:08b}", raw[0x07]);
+            print!("{:08b}", raw[0x0c]);
             println!("\n")
         }
     }
