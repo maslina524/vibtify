@@ -51,8 +51,10 @@ pub fn get_gamepads() -> HidResult<Vec<Box<dyn Gamepad>>> {
 
         let typ = match (vid, pid) {
             (0x054C, _) => { // SONY
-
-                GamepadType::Dualshock4
+                match pid {
+                    0x05C4 | 0x09CC => GamepadType::Dualshock4,
+                    _ => continue
+                }
             },
             _ => continue
         };
