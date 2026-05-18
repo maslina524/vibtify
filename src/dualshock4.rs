@@ -1,91 +1,35 @@
-use hidapi::{HidApi, HidDevice, HidError};
+use hidapi::{HidDevice, HidResult};
 
 use crate::dpad::DPadState;
+use crate::gamepad::{Gamepad, GamepadState};
 use crate::motion::MotionState;
 use crate::touch::TPadState;
 use crate::bit::get_bit;
 
-pub fn get_gamepads() -> Result<Vec<Gamepad>, HidError> {
-    let api = HidApi::new()?;
-    
-    let mut ret: Vec<Gamepad> = Vec::new();
-
-    for device in api.device_list() {
-        let vid = device.vendor_id();
-        let pid = device.product_id();
-
-        let typ = match (vid, pid) {
-            (0x054C, 0x05C4) | (0x054C, 0x09CC) => GamepadType::Dualshock4,
-            _ => continue // not a gamepad
-        };
-
-        let device = api.open(vid, pid)?;
-
-        ret.push(Gamepad { typ, vid, pid, device });
-    }
-
-    Ok(ret)
-}
-
 #[derive(Debug)]
-pub enum GamepadType {
-    Dualshock4
+pub struct Dualshock4 {
+    pub(crate) vid: u16,
+    pub(crate) pid: u16,
+    pub(crate) device: HidDevice
 }
 
-#[derive(Debug)]
-pub struct GamepadState {
-    pub l_stick: (f32, f32),
-    pub r_stick: (f32, f32),
-
-    pub l1: bool,
-    pub l2: bool,
-    pub l3: bool,
-    pub r1: bool,
-    pub r2: bool,
-    pub r3: bool,
-
-    pub l2_force: f32,
-    pub r2_force: f32,
-
-    pub dpad: DPadState,
-    pub tpad: TPadState,
-    
-    pub options: bool,
-    pub share: bool,
-    pub home: bool,
-    
-    pub motion: MotionState
-}
-
-#[derive(Debug)]
-pub struct Gamepad {
-    typ: GamepadType,
-    vid: u16,
-    pid: u16,
-    device: HidDevice
-}
-
-impl Gamepad {
-    pub fn get_raw(&self) -> Result<[u8; 64], HidError> {
+impl Gamepad for Dualshock4 {
+    fn get_raw(&self) -> HidResult<[u8; 64]> {
         let mut buf = [0u8; 64];
         let bytes_read = self.device.read_timeout(&mut buf, 1000)?;
 
         Ok(buf[..bytes_read].try_into().unwrap())
     }
 
-    pub fn get_typ(&self) -> &GamepadType {
-        &self.typ
-    }
-
-    pub fn get_vid(&self) -> u16 {
+    fn get_vid(&self) -> u16 {
         self.vid
     }
 
-    pub fn get_pid(&self) -> u16 {
+    fn get_pid(&self) -> u16 {
         self.pid
     }
 
-    pub fn get_state(&self) -> Result<GamepadState, HidError> {
+    fn get_state(&self) -> HidResult<GamepadState> {
         let raw = self.get_raw()?;
         
         let l_stick = (

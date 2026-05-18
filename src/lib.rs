@@ -1,3 +1,6 @@
+#![allow(dead_code)]
+
+mod gamepad;
 mod dualshock4;
 mod dpad;
 mod touch;
@@ -6,7 +9,7 @@ mod bit;
 
 #[cfg(test)]
 mod tests {
-    use crate::dualshock4::get_gamepads;
+    use crate::gamepad::get_gamepads;
 
     #[test]
     fn get_gamepads_test() {
