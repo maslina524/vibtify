@@ -1,5 +1,7 @@
 use hidapi::{HidApi, HidDevice, HidError};
 
+use crate::dpad::DPadState;
+
 pub fn get_gamepads() -> Result<Vec<Gamepad>, HidError> {
     let api = HidApi::new()?;
     
@@ -32,35 +34,6 @@ pub enum GamepadType {
 }
 
 #[derive(Debug)]
-pub enum CrossState {
-    Up,
-    Down,
-    Left,
-    Right,
-    UpLeft,
-    UpRight,
-    DownLeft,
-    DownRight,
-    None
-}
-
-impl CrossState {
-    pub fn from_byte(byte: u8) -> Self {
-        return match byte {
-            0x00 => Self::Up,
-            0x04 => Self::Down,
-            0x06 => Self::Left,
-            0x02 => Self::Right,
-            0x07 => Self::UpLeft,
-            0x01 => Self::UpRight,
-            0x05 => Self::DownLeft,
-            0x03 => Self::DownRight,
-            _ => Self::None
-        }
-    }
-}
-
-#[derive(Debug)]
 pub struct GamepadState {
     pub l_stick: (f32, f32),
     pub r_stick: (f32, f32),
@@ -75,7 +48,7 @@ pub struct GamepadState {
     pub l2_force: f32,
     pub r2_force: f32,
 
-    pub cross: CrossState,
+    pub cross: DPadState,
     
     pub options: bool,
     pub share: bool
@@ -123,7 +96,7 @@ impl Gamepad {
             l2_force: raw[8] as f32 / 255.,
             r2_force: raw[9] as f32 / 255.,
 
-            cross: CrossState::from_byte(raw[5]),
+            cross: DPadState::from_byte(raw[5]),
 
             options: get_bit(raw[6], 5) == 1,
             share: get_bit(raw[6], 4) == 1,

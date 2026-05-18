@@ -1,4 +1,5 @@
 mod gamepad;
+mod dpad;
 
 #[cfg(test)]
 mod tests {
