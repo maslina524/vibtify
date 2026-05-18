@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 hidapi = "2.6.6"
+scroll = "0.13.0"

@@ -1,6 +1,7 @@
 use hidapi::{HidApi, HidDevice, HidError};
 
 use crate::dpad::DPadState;
+use crate::motion::MotionState;
 use crate::touch::TPadState;
 use crate::bit::get_bit;
 
@@ -52,6 +53,8 @@ pub struct GamepadState {
     pub options: bool,
     pub share: bool,
     pub home: bool,
+    
+    pub motion: MotionState
 }
 
 #[derive(Debug)]
@@ -116,6 +119,8 @@ impl Gamepad {
             options: get_bit(raw[6], 5) == 1,
             share: get_bit(raw[6], 4) == 1,
             home: get_bit(raw[0x07], 0) == 1,
+
+            motion: MotionState::from_buf(&raw)
         };
         Ok(ret)
     }
