@@ -5,6 +5,8 @@ use crate::motion::MotionState;
 use crate::touch::TPadState;
 use crate::dualshock4::Dualshock4;
 
+/// A structure that stores a snapshotof the states
+/// of all elements of a gamepad (sticks, buttons, touchpad, etc.).
 #[derive(Debug)]
 pub struct GamepadState {
     pub l_stick: (f32, f32),
@@ -35,7 +37,7 @@ pub struct GamepadState {
     pub motion: MotionState
 }
 
-pub trait Gamepad: std::fmt::Debug {
+pub(crate) trait Gamepad: std::fmt::Debug {
     fn get_raw(&self) -> HidResult<[u8; 64]>;
     fn get_state(&self) -> HidResult<GamepadState>;
     fn get_vid(&self) -> u16;
@@ -44,10 +46,11 @@ pub trait Gamepad: std::fmt::Debug {
     fn set_lightbar(&self, r: u8, g: u8, b: u8) -> HidResult<()>;
 }
 
-pub enum GamepadType {
+enum GamepadType {
     Dualshock4
 }
 
+/// Returns a Vec<> of all gamepads connected via USB.
 pub fn get_gamepads() -> HidResult<Vec<Box<dyn Gamepad>>> {
     let api = HidApi::new()?;
     let mut ret: Vec<Box<dyn Gamepad>> = Vec::new();

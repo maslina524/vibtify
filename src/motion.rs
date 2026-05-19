@@ -1,5 +1,6 @@
 use scroll::{self, Pread};
 
+/// A structure that stores a snapshot of the gyroscope and motion state of the gamepad.
 #[derive(Debug)]
 pub struct MotionState {
     motion_x: i16,

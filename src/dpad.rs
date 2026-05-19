@@ -1,3 +1,4 @@
+/// A structure that stores a snapshot of the D-pad state.
 #[derive(Debug)]
 pub enum DPadState {
     Up,

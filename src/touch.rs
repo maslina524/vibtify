@@ -10,6 +10,7 @@ const DATA_BLOCK_A_2: usize = 0x28;
 const DATA_BLOCK_B_2: usize = 0x29;
 const DATA_BLOCK_C_2: usize = 0x2a;
 
+/// A structure that stores a snapshot of the touchpad state.
 #[derive(Debug)]
 pub struct TPadState {
     is_touched_1: bool,
