@@ -37,7 +37,7 @@ pub struct GamepadState {
     pub motion: MotionState
 }
 
-pub(crate) trait Gamepad: std::fmt::Debug {
+pub trait Gamepad: std::fmt::Debug {
     fn get_raw(&self) -> HidResult<[u8; 64]>;
     fn get_state(&self) -> HidResult<GamepadState>;
     fn get_vid(&self) -> u16;
