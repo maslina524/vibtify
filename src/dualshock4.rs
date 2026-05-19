@@ -74,7 +74,7 @@ impl Gamepad for Dualshock4 {
         Ok(ret)
     }
 
-    fn rumble(&self, l_motor: u8, r_motor: u8) -> HidResult<()> {
+    fn set_rumble(&self, l_motor: u8, r_motor: u8) -> HidResult<()> {
         let mut buf = vec![0u8; 16];
         buf[0] = 0x05;
         buf[1] = 0x01;

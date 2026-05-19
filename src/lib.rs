@@ -58,7 +58,7 @@ mod tests {
     #[test]
     fn rumble_test() {
         let gamepad = &get_gamepads().unwrap()[0];
-        println!("{:?}", gamepad.rumble(255, 255));
+        println!("{:?}", gamepad.set_rumble(255, 255));
     }
 
     #[test]
