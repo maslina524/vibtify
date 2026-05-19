@@ -41,6 +41,7 @@ pub trait Gamepad: std::fmt::Debug {
     fn get_vid(&self) -> u16;
     fn get_pid(&self) -> u16;
     fn rumble(&self, l_motor: u8, r_motor: u8) -> HidResult<()>;
+    fn set_lightbar(&self, r: u8, g: u8, b: u8) -> HidResult<()>;
 }
 
 pub enum GamepadType {

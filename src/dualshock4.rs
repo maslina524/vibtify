@@ -86,4 +86,18 @@ impl Gamepad for Dualshock4 {
         
         Ok(())
     }
+
+    fn set_lightbar(&self, r: u8, g: u8, b: u8) -> HidResult<()> {
+        let mut buf = vec![0u8; 16];
+        buf[0] = 0x05;
+        buf[1] = 0x02;
+
+        buf[6] = r; 
+        buf[7] = g;
+        buf[8] = b;
+
+        self.device.write(&buf)?;
+        
+        Ok(())
+    }
 }

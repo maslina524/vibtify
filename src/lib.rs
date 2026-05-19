@@ -9,6 +9,8 @@ mod bit;
 
 #[cfg(test)]
 mod tests {
+    use std::{thread, time};
+
     use crate::gamepad::get_gamepads;
 
     #[test]
@@ -57,5 +59,18 @@ mod tests {
     fn rumble_test() {
         let gamepad = &get_gamepads().unwrap()[0];
         println!("{:?}", gamepad.rumble(255, 255));
+    }
+
+    #[test]
+    fn lightbar_test() {
+        let gamepad = &get_gamepads().unwrap()[0];
+        for x in 0..1000 {
+            let value = (((x as f64 / 10.).sin() + 1.) * 127.5) as u8;
+            println!("{value}");
+            if let Err(e) = gamepad.set_lightbar(value, 0, 0) {
+                panic!("{e:?}");
+            };
+            thread::sleep(time::Duration::from_millis(10));
+        }
     }
 }
