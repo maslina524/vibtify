@@ -37,7 +37,7 @@ mod tests {
             let state = gamepad.get_state().unwrap();
             print!(
                 "triangle: {} | circle: {} | cross: {} | square: {}",
-                state.triangle, state.circle, state.cross, state.square
+                state.triangle, state.circle, state.cross, state.square 
             );
             println!("\n")
         }
@@ -51,5 +51,11 @@ mod tests {
             print!("{:?}", state);
             println!("\n")
         }
+    }
+
+    #[test]
+    fn rumble_test() {
+        let gamepad = &get_gamepads().unwrap()[0];
+        println!("{:?}", gamepad.rumble(255, 255));
     }
 }
