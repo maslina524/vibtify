@@ -2,6 +2,15 @@
 name = "vibtify"
 version = "0.1.0"
 edition = "2024"
+authors = ["maslina524"]
+description = "A Rust crate for high-level interaction with a gamepad "
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/maslina524/vibtify"
+documentation = "https://docs.rs/vibtify"
+homepage = "https://github.com/maslina524/vibtify"
+readme = "README.md"
+keywords = ["gamepad", "ds4", "dualshock", "joystick", "api"]
+categories = ["development-tools"]
 
 [dependencies]
 hidapi = "2.6.6"
