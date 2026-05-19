@@ -13,7 +13,7 @@ pub enum DPadState {
 }
 
 impl DPadState {
-    pub fn from_byte(byte: u8) -> Self {
+    pub(crate) fn from_byte(byte: u8) -> Self {
         return match byte {
             0x00 => Self::Up,
             0x04 => Self::Down,

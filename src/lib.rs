@@ -1,10 +1,29 @@
 #![allow(dead_code)]
 
-mod gamepad;
-mod dualshock4;
-mod dpad;
-mod touch;
-mod motion;
+//! **vibtify** is a Rust crate for low-latency gamepad interaction – both receiving input data (buttons, axes, triggers) and controlling output features such as vibration (rumble) and LEDs. It provides a clean, cross-platform API for working with gamepads in games.
+//!
+//! ## Supported Gamepads
+//! - **Dualshock4**
+//!
+//! ## Example
+//! ```rust
+//! let gamepad = &get_gamepads().unwrap()[0];
+//! loop {
+//!     let state = gamepad.get_state().unwrap();
+//!     if state.square {
+//!         println!("The square button is pressed!");
+//!         gamepad.set_rumble(125, 125);
+//!     } else {
+//!         gamepad.set_rumble(0, 0);
+//!     }
+//! }
+//! ```
+
+pub mod gamepad;
+pub mod dualshock4;
+pub mod dpad;
+pub mod touch;
+pub mod motion;
 mod bit;
 
 #[cfg(test)]

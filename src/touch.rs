@@ -23,7 +23,7 @@ pub struct TPadState {
 }
 
 impl TPadState {
-    pub fn from_buf(buf: &[u8; 64]) -> Self {
+    pub(crate) fn from_buf(buf: &[u8; 64]) -> Self {
         let active_1 = buf[ACTIVE_BLOCK_1] < 0x80;
 
         let xy_1 = if active_1 {

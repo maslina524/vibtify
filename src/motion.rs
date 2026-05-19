@@ -13,7 +13,7 @@ pub struct MotionState {
 }
 
 impl MotionState {
-    pub fn from_buf(buf: &[u8; 64]) -> Self {
+    pub(crate) fn from_buf(buf: &[u8; 64]) -> Self {
         let motion_x = buf.pread_with::<i16>(0x0d, scroll::BE).unwrap();
         let motion_y = buf.pread_with::<i16>(0x0f, scroll::BE).unwrap();
         let motion_z = buf.pread_with::<i16>(0x11, scroll::BE).unwrap();
