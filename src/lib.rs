@@ -82,7 +82,7 @@ mod tests {
 
     #[test]
     fn lightbar_test() {
-        let gamepad = &get_gamepads().unwrap()[0];
+        let gamepad = &mut get_gamepads().unwrap()[0];
         for x in 0..1000 {
             let value = (((x as f64 / 10.).sin() + 1.) * 127.5) as u8;
             println!("{value}");
@@ -118,7 +118,7 @@ mod tests {
 
     #[test]
     fn rainbow_lightbar_test() {
-        let gamepad = &get_gamepads().unwrap()[0];
+        let gamepad = &mut get_gamepads().unwrap()[0];
         for x in 0..1000 {
             let (r, g, b) = hsv_to_rgb((x % 360) as f64, 1., 1.);
             println!("{r}-{g}-{b}");

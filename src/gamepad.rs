@@ -43,7 +43,8 @@ pub trait Gamepad: std::fmt::Debug {
     fn get_vid(&self) -> u16;
     fn get_pid(&self) -> u16;
     fn set_rumble(&self, l_motor: u8, r_motor: u8) -> HidResult<()>;
-    fn set_lightbar(&self, r: u8, g: u8, b: u8) -> HidResult<()>;
+    fn set_lightbar(&mut self, r: u8, g: u8, b: u8) -> HidResult<()>;
+    fn get_lightbar(&self) -> HidResult<(u8, u8, u8)>;
 }
 
 enum GamepadType {
@@ -73,7 +74,7 @@ pub fn get_gamepads() -> HidResult<Vec<Box<dyn Gamepad>>> {
         
         ret.push(
             match typ {
-                GamepadType::Dualshock4 => Box::new(Dualshock4 { vid, pid, device })
+                GamepadType::Dualshock4 => Box::new(Dualshock4 { vid, pid, device, led_r: 0, led_g: 0, led_b: 0 })
             }
         );
     }

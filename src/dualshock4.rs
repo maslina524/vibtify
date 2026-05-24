@@ -10,7 +10,11 @@ use crate::bit::get_bit;
 pub struct Dualshock4 {
     pub(crate) vid: u16,
     pub(crate) pid: u16,
-    pub(crate) device: HidDevice
+    pub(crate) device: HidDevice,
+
+    pub(crate) led_r: u8,
+    pub(crate) led_g: u8,
+    pub(crate) led_b: u8,
 }
 
 impl Gamepad for Dualshock4 {
@@ -87,7 +91,7 @@ impl Gamepad for Dualshock4 {
         Ok(())
     }
 
-    fn set_lightbar(&self, r: u8, g: u8, b: u8) -> HidResult<()> {
+    fn set_lightbar(&mut self, r: u8, g: u8, b: u8) -> HidResult<()> {
         let mut buf = vec![0u8; 16];
         buf[0] = 0x05;
         buf[1] = 0x02;
@@ -97,7 +101,19 @@ impl Gamepad for Dualshock4 {
         buf[8] = b;
 
         self.device.write(&buf)?;
+
+        self.led_r = r;
+        self.led_g = g;
+        self.led_b = b;
         
         Ok(())
+    }
+
+    fn get_lightbar(&self) -> HidResult<(u8, u8, u8)> {
+        Ok((
+            self.led_r,
+            self.led_g,
+            self.led_b
+        ))
     }
 }
