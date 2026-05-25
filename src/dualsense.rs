@@ -59,6 +59,10 @@ impl Gamepad for Dualsense {
     }
 
     fn get_lightbar(&self) -> HidResult<(u8, u8, u8)> {
-        todo!();
+        Ok((
+            self.led_r,
+            self.led_g,
+            self.led_b
+        ))
     }
 }
