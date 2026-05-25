@@ -25,5 +25,11 @@ impl Gamepad for Dualsense {
         Ok(buf[..bytes_read].try_into().unwrap())
     }
 
-    
+    fn get_vid(&self) -> u16 {
+        self.vid
+    }
+
+    fn get_pid(&self) -> u16 {
+        self.pid
+    }
 }
