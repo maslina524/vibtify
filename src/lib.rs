@@ -21,6 +21,7 @@
 
 pub mod gamepad;
 pub mod dualshock4;
+pub mod dualsense;
 pub mod dpad;
 pub mod touch;
 pub mod motion;
