@@ -1,10 +1,6 @@
 use hidapi::{HidDevice, HidResult};
 
-use crate::dpad::DPadState;
 use crate::gamepad::{Gamepad, GamepadState};
-use crate::motion::MotionState;
-use crate::touch::TPadState;
-use crate::bit::get_bit;
 
 #[derive(Debug)]
 pub struct Dualsense {
@@ -31,5 +27,21 @@ impl Gamepad for Dualsense {
 
     fn get_pid(&self) -> u16 {
         self.pid
+    }
+
+    fn get_state(&self) -> HidResult<GamepadState> {
+        todo!();
+    }
+
+    fn set_rumble(&self, l_motor: u8, r_motor: u8) -> HidResult<()> {
+        todo!();
+    }
+
+    fn get_lightbar(&self) -> HidResult<(u8, u8, u8)> {
+        todo!();
+    }
+
+    fn set_lightbar(&mut self, r: u8, g: u8, b: u8) -> HidResult<()> {
+        todo!();
     }
 }
