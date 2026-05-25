@@ -37,11 +37,28 @@ impl Gamepad for Dualsense {
         todo!();
     }
 
-    fn get_lightbar(&self) -> HidResult<(u8, u8, u8)> {
-        todo!();
+    fn set_lightbar(&mut self, r: u8, g: u8, b: u8) -> HidResult<()> {
+        let mut buf = [0_u8; 48];
+        buf[0] = 0x02;
+        buf[1] = 0xFF;
+        buf[2] = 0xF7;
+        buf[40] = 0x02;
+        buf[41] = 0x02;
+
+        buf[45] = r;
+        buf[46] = g;
+        buf[47] = b;
+
+        self.device.write(&buf)?;
+
+        self.led_r = r;
+        self.led_g = g;
+        self.led_b = b;
+
+        Ok(())
     }
 
-    fn set_lightbar(&mut self, r: u8, g: u8, b: u8) -> HidResult<()> {
+    fn get_lightbar(&self) -> HidResult<(u8, u8, u8)> {
         todo!();
     }
 }
