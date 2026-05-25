@@ -1,6 +1,7 @@
 use hidapi::{HidApi, HidResult};
 
 use crate::dpad::DPadState;
+use crate::dualsense::Dualsense;
 use crate::motion::MotionState;
 use crate::touch::TPadState;
 use crate::dualshock4::Dualshock4;
@@ -48,7 +49,8 @@ pub trait Gamepad: std::fmt::Debug {
 }
 
 enum GamepadType {
-    Dualshock4
+    Dualshock4,
+    Dualsense
 }
 
 /// Returns a Vec<> of all gamepads connected via USB.
@@ -64,6 +66,7 @@ pub fn get_gamepads() -> HidResult<Vec<Box<dyn Gamepad>>> {
             (0x054C, _) => { // SONY
                 match pid {
                     0x05C4 | 0x09CC => GamepadType::Dualshock4,
+                    0x0CE6 =>  GamepadType::Dualsense,
                     _ => continue
                 }
             },
@@ -74,7 +77,8 @@ pub fn get_gamepads() -> HidResult<Vec<Box<dyn Gamepad>>> {
         
         ret.push(
             match typ {
-                GamepadType::Dualshock4 => Box::new(Dualshock4 { vid, pid, device, led_r: 0, led_g: 0, led_b: 0 })
+                GamepadType::Dualshock4 => Box::new(Dualshock4 { vid, pid, device, led_r: 0, led_g: 0, led_b: 0 }),
+                GamepadType::Dualsense => Box::new(Dualsense { vid, pid, device, led_r: 0, led_g: 0, led_b: 0 })
             }
         );
     }
